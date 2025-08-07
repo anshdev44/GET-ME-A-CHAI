@@ -64,7 +64,7 @@ const PaymentPage = async (username) => {
                     </div>
 
                     {/* Profile Picture - Overlapping */}
-                    <div className="w-36 h-36 absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2">
+                    <div className="w-36 h-36 ~ left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2">
                         <img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIHapIeCiwS7x6LmNiUMsGcyA3R8dgs-nSdQ&s"
                             className="w-full h-full object-cover rounded-b-xl"
@@ -73,7 +73,7 @@ const PaymentPage = async (username) => {
                     </div>
                 </div>
 
-                {/* Content Section */}
+               
                 <div className="flex flex-col items-center pt-24 px-4 text-center">
                     {/* Title */}
                     <h1 className="text-3xl font-bold"></h1>
@@ -126,16 +126,28 @@ const PaymentPage = async (username) => {
                                 {/* Amount Input */}
                                 <div className="relative">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-400">
-                                        $
+                                        ₹
                                     </span>
                                     <input
                                         type="number"
                                         placeholder="5.00"
+                                        // value={}
+                                        name='amount'
+                                        className="w-full bg-gray-800 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white text-lg placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
+                                    />
+                                </div>
+
+                                   <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="NAME"
                                         value={paymentform.name}
                                         name='name'
                                         className="w-full bg-gray-800 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white text-lg placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
                                     />
                                 </div>
+
+                                
 
                                 {/* Message Input */}
                                 <textarea
