@@ -7,7 +7,7 @@ const SocialLoginButtons = () => {
   return (
 <div className="flex flex-col gap-4 mt-[90px] items-center justify-center p-6 min-h-[51vh]">
   {/* Google Button */}
-  <button className="cursor-pointer w-full max-w-md flex items-center justify-center bg-white border border-gray-300 rounded-xl shadow px-6 py-3 text-base font-semibold text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+  <button onClick={signIn("google")} className="cursor-pointer w-full max-w-md flex items-center justify-center bg-white border border-gray-300 rounded-xl shadow px-6 py-3 text-base font-semibold text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
     <svg className="h-6 w-6 mr-4" viewBox="0 0 48 48">
       <path fill="#EA4335" d="M24 9.5c3.1 0 5.9 1.1 8.1 3.2l6-6C34.7 2.3 29.7 0 24 0 14.6 0 6.6 5.8 2.7 14.2l7.3 5.7C12 12.9 17.5 9.5 24 9.5z" />
       <path fill="#4285F4" d="M46.1 24.5c0-1.4-.1-2.7-.4-4H24v7.6h12.4c-.5 2.9-2.1 5.3-4.4 6.9l7 5.4c4.1-3.8 6.5-9.4 6.5-16z" />
@@ -26,13 +26,7 @@ const SocialLoginButtons = () => {
     <span className="text-lg">Continue with GitHub</span>
   </button>
 
-  {/* Facebook Button */}
-  <button className="cursor-pointer w-full max-w-md flex items-center justify-center bg-blue-600 border border-blue-700 rounded-xl shadow px-6 py-3 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
-    <svg className="h-6 w-6 mr-4" fill="white" viewBox="0 0 24 24">
-      <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.406.593 24 1.325 24h11.495v-9.294H9.691V11.01h3.129V8.413c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.463.099 2.794.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.696h-3.12V24h6.116C23.406 24 24 23.406 24 22.675V1.325C24 .593 23.406 0 22.675 0z" />
-    </svg>
-    <span className="text-lg">Continue with Facebook</span>
-  </button>
+
 </div>
 
   );

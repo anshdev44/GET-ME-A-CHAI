@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import mongoose from "mongoose";
 import User from "../../../models/user";
+import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
   providers: [
@@ -10,16 +11,18 @@ const handler = NextAuth({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
+   GoogleProvider({
+    clientId: process.env.GOGGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+  })
+
   ],
   callbacks: {
     async signIn({ user, account }) {
       const isAllowedToSignIn = true;
 
- 
-      console.log("🕒 Login attempt at:", new Date().toLocaleString());
 
-      console.log("🔐 GitHub User Info:", user);
-      console.log("🔐 GitHub Account Info:", account);
+
 
       // Extract email
       const email = user?.email;

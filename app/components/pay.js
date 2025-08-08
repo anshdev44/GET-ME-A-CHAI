@@ -19,7 +19,7 @@ const PaymentPage = ({username}) => {
   };
 
   const payuser = async () => {
-    const amount = parseInt(paymentform.amount) * 100; // Razorpay accepts amount in paise
+    const amount = parseInt(paymentform.amount) * 100; 
 
     try {
       const a = await initiate(amount, username, paymentform);
@@ -33,11 +33,11 @@ const PaymentPage = ({username}) => {
         description: "Test Transaction",
         image: "https://example.com/your_logo",
         order_id: orderid,
-        callback_url: "http://localhost:3000/api/razorpay",
+        callback_url: `http://localhost:3000/api/razorpay`,
         prefill: {
-          name: paymentform.name || session?.user.name,
-          email: session?.user.email,
-          contact: "9000000000", // replace or collect from user
+          name: "ANSH" ,
+          email: "anshahuja770@gmail.com",
+          contact: "9425118482", 
         },
         notes: {
           message: paymentform.message,
@@ -67,12 +67,12 @@ const PaymentPage = ({username}) => {
         {/* Banner and Profile */}
         <div className="relative">
           <img
-            className="w-full h-auto object-cover"
+            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-auto object-cover object-center"
             src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/4842667/452146dcfeb04f38853368f554aadde1/eyJ3IjoxOTIwLCJ3ZSI6MX0%3D/18.gif?token-hash=Mh-B5X0fAjX72C_3Ggf-nQMUUe4b4Os4Y0qll01wqq4%3D&token-time=1756944000"
             alt="Banner"
           />
 
-          <div className="w-36 h-36 mx-auto mt-[-2.5rem]">
+          <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 mx-auto mt-[-1.5rem] sm:mt-[-1.75rem] md:mt-[-2rem] lg:mt-[-2.5rem]">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIHapIeCiwS7x6LmNiUMsGcyA3R8dgs-nSdQ&s"
               className="w-full h-full object-cover rounded-b-xl"
@@ -82,42 +82,42 @@ const PaymentPage = ({username}) => {
         </div>
 
         {/* Creator Info */}
-        <div className="text-center pt-10">
-          <h1 className="text-3xl font-bold"> {username}</h1>
-          <p className="mt-2 text-gray-300">Creating Animated art for VTT's</p>
-          <p className="text-sm text-gray-400">
+        <div className="text-center pt-6 sm:pt-8 md:pt-10 px-4">
+          <h1 className="text-2xl sm:text-3xl font-bold">{username}</h1>
+          <p className="mt-2 text-gray-300 text-sm sm:text-base">Creating Animated art for VTT's</p>
+          <p className="text-xs sm:text-sm text-gray-400 mt-1">
             19,337 members • 101 posts • $20,780/release
           </p>
         </div>
 
         {/* Payment Section */}
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 px-4 pb-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mt-6 sm:mt-8 md:mt-10 px-4 sm:px-6 pb-8 sm:pb-12 md:pb-16">
           {/* Supporters List */}
-          <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-6">
-            <h2 className="text-2xl font-bold text-center mb-6">Supporters</h2>
-            <ul className="space-y-4">
-              <li className="bg-gray-700/50 p-4 rounded-lg">
+          <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-4 sm:p-6 order-2 lg:order-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Supporters</h2>
+            <ul className="space-y-3 sm:space-y-4">
+              <li className="bg-gray-700/50 p-3 sm:p-4 rounded-lg text-sm sm:text-base">
                 ANSH DONATED ₹1000 WITH A MESSAGE
               </li>
-              <li className="bg-gray-700/50 p-4 rounded-lg">
+              <li className="bg-gray-700/50 p-3 sm:p-4 rounded-lg text-sm sm:text-base">
                 ANSH DONATED ₹1000 WITH A MESSAGE
               </li>
             </ul>
           </div>
 
           {/* Payment Form */}
-          <div className="bg-gray-900 border border-blue-500/50 rounded-xl p-8">
-            <h2 className="text-2xl font-bold text-center mb-2">
+          <div className="bg-gray-900 border border-blue-500/50 rounded-xl p-4 sm:p-6 md:p-8 order-1 lg:order-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-center mb-2">
               Make a Payment
             </h2>
-            <p className="text-center text-gray-400 mb-8">
+            <p className="text-center text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
               Your support keeps the art flowing!
             </p>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               {/* Amount Input */}
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-400">
+                <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-base sm:text-lg text-gray-400">
                   ₹
                 </span>
                 <input
@@ -126,7 +126,7 @@ const PaymentPage = ({username}) => {
                   name="amount"
                   value={paymentform.amount}
                   onChange={handlechange}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white text-lg placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="w-full bg-gray-800 border border-gray-600 rounded-lg py-2.5 sm:py-3 pl-8 sm:pl-10 pr-3 sm:pr-4 text-white text-base sm:text-lg placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -137,7 +137,7 @@ const PaymentPage = ({username}) => {
                 name="name"
                 value={paymentform.name}
                 onChange={handlechange}
-                className="w-full bg-gray-800 border border-gray-600 rounded-lg py-3 px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg py-2.5 sm:py-3 px-3 sm:px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base"
               />
 
               {/* Message Input */}
@@ -147,13 +147,13 @@ const PaymentPage = ({username}) => {
                 value={paymentform.message}
                 onChange={handlechange}
                 rows="3"
-                className="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-3 sm:px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base resize-none"
               ></textarea>
 
               {/* Pay Button */}
               <button
                 onClick={payuser}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base transition-colors duration-200 mt-2 sm:mt-0"
               >
                 Pay Now
               </button>
