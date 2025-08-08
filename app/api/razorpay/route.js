@@ -3,7 +3,7 @@ import connectDB from '../../db/connect';
 import Payment from '../../models/payment';
 import crypto from 'crypto';
 
-// Custom validation function since razorpay-utils might not be available
+
 const validatePaymentVerification = (params, signature, secret) => {
     try {
         const { order_id, payment_id } = params;
@@ -15,7 +15,7 @@ const validatePaymentVerification = (params, signature, secret) => {
         
         return expectedSignature === signature;
     } catch (error) {
-        console.error('Validation error:', error);
+        // console.error('Validation error:', error);
         return false;
     }
 };
@@ -29,11 +29,11 @@ export const POST = async (req) => {
 
         let body = await req.formData();
         body = Object.fromEntries(body);
-        console.log('Form data received:', Object.keys(body));
+        // console.log('Form data received:', Object.keys(body));
 
         // Check required fields
         if (!body.razorpay_order_id || !body.razorpay_payment_id || !body.razorpay_signature) {
-            console.error('Missing required fields:', body);
+            // console.error('Missing required fields:', body);
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
@@ -44,7 +44,7 @@ export const POST = async (req) => {
             return NextResponse.json({ error: "Payment not found" }, { status: 400 }); 
         }
 
-        console.log('Validating payment...');
+        // console.log('Validating payment...');
         let verified = validatePaymentVerification(
             {
                 order_id: body.razorpay_order_id,
@@ -54,17 +54,15 @@ export const POST = async (req) => {
             process.env.RAZORPAY_KEY_SECRET
         );
 
-        // console.log('Payment verified:', verified);
-
+     
         if (verified) {
             await Payment.updateOne({ oid: body.razorpay_order_id }, { done: true });
             const updatedPayment = await Payment.findOne({ oid: body.razorpay_order_id });
 
-            // console.log('Updated payment:', updatedPayment);
             
             const redirectUrl = process.env.URL || 'http://localhost:3000';
             const finalUrl = `${redirectUrl}/${updatedPayment.to_user}?payment=true`;
-            // console.log('Redirecting to:', finalUrl);
+         
             
             return NextResponse.redirect(finalUrl);
         }
@@ -72,10 +70,7 @@ export const POST = async (req) => {
         return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
 
     } catch (err) {
-        // console.error("=== Payment verification error ===");
-        // console.error("Error name:", err.name);
-        // console.error("Error message:", err.message);
-        // console.error("Error stack:", err.stack);
+   
         return NextResponse.json({ error: "Internal Server Error", details: err.message }, { status: 500 });
     }
 };
