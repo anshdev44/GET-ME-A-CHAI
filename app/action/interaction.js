@@ -8,6 +8,7 @@ import connectDB from "../db/connect";
 // ✅ Initiate payment
 export const initiate = async (amount, to_username, payment_from) => {
   await connectDB();
+  console.log(User)
 
   const instance = new Razorpay({
     key_id: process.env.NEXT_PUBLIC_RAZORPAY_ID,
@@ -15,7 +16,7 @@ export const initiate = async (amount, to_username, payment_from) => {
   });
 
   const options = {
-    amount: Number.parseInt(amount) * 100, // amount in paise
+    amount: Number.parseInt(amount) ,
     currency: "INR"
   };
 
@@ -43,7 +44,7 @@ export const fetchuser = async (username) => {
 
 export const fetchpayment = async (username) => {
   await connectDB();
-  return await Payment.find({ to_user: username });
+  return await Payment.find({ to_user: username ,done:true});
 };
 
 
@@ -52,15 +53,36 @@ export const updatedprofile = async (data, oldusername) => {
 
   const ndata = data; 
 
- 
-  if (oldusername !== ndata.username) {
+  const mappedData = {
+    name: ndata.name,
+    email: ndata.email,
+    profilepic: ndata.profilePic,
+    coverpic: ndata.coverPic,
+    razorpayId: ndata.razorpayId,
+    razorpaySecret: ndata.razorpaySecret,
+    updatedAt: new Date()
+  };
+
+
+  Object.keys(mappedData).forEach(key => {
+    if (mappedData[key] === undefined) {
+      delete mappedData[key];
+    }
+  });
+
+  if (oldusername !== ndata.username && ndata.username) {
     const existingUser = await User.findOne({ username: ndata.username });
     if (existingUser) {
       return { error: "Username already exists", status: 400 };
     }
+    mappedData.username = ndata.username;
   }
 
-
-  await User.updateOne({ username: oldusername }, { $set: ndata });
+  const result = await User.updateOne({ username: oldusername }, { $set: mappedData });
+  
+  if (result.matchedCount === 0) {
+    return { error: "User not found", status: 404 };
+  }
+  
   return { success: true };
 };

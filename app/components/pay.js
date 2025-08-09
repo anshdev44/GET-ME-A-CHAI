@@ -50,7 +50,7 @@ const PaymentPage = ({ username }) => {
       const orderid = a.id;
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
+        key: user.razorpayId,
         amount: amount,
         currency: "INR",
         name: "GET ME A CHAI",
@@ -85,17 +85,18 @@ const PaymentPage = ({ username }) => {
       <div className="min-h-screen text-white bg-black">
         {/* Banner */}
         <div className="relative">
-          <img
-            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-auto object-cover object-center"
-            src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/4842667/452146dcfeb04f38853368f554aadde1/eyJ3IjoxOTIwLCJ3ZSI6MX0%3D/18.gif?token-hash=Mh-B5X0fAjX72C_3Ggf-nQMUUe4b4Os4Y0qll01wqq4%3D&token-time=1756944000"
-            alt="Banner"
-          />
-
+          <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden">
+            <img
+              src={user.coverpic}
+              alt="Cover"
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 mx-auto mt-[-1.5rem] sm:mt-[-1.75rem] md:mt-[-2rem] lg:mt-[-2.5rem]">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIHapIeCiwS7x6LmNiUMsGcyA3R8dgs-nSdQ&s"
+              src={user.profilepic}
               className="w-full h-full object-cover rounded-b-xl"
-              alt="Profile"
+              alt="UNABLE TO LOAD PROFILEPIC"
             />
           </div>
         </div>

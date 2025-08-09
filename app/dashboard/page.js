@@ -16,6 +16,7 @@ const Dash = () => {
       (async () => {
         try {
           const data = await fetchuser(session.user.name);
+          console.log(data);
           if (data) setForm(data);
         } catch (err) {
           console.error("Failed to fetch user:", err);
@@ -36,9 +37,14 @@ const Dash = () => {
     try {
       const res = await updatedprofile(form, session.user.name);
       console.log("Profile updated:", res);
-      // router.refresh(); // optional if you want UI reload
+      if (res.error) {
+        alert(`Error: ${res.error}`);
+      } else {
+        alert("Profile updated successfully!");
+      }
     } catch (err) {
       console.error("Update failed:", err);
+      alert("Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -83,18 +89,18 @@ const Dash = () => {
             />
           </li>
 
-          {/* Description */}
+          {/* Username */}
           <li className="flex flex-col">
-            <label htmlFor="description" className="text-white mb-1">
-              Description Needed
+            <label htmlFor="username" className="text-white mb-1">
+              Username
             </label>
             <input
               type="text"
-              id="description"
-              name="description"
-              value={form.description || ""}
+              id="username"
+              name="username"
+              value={form.username || ""}
               onChange={handlechange}
-              placeholder="Enter description"
+              placeholder="Enter username"
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
@@ -108,7 +114,7 @@ const Dash = () => {
               type="text"
               id="profilePic"
               name="profilePic"
-              value={form.profilePic || ""}
+              value={form.profilePic || form.profilepic || ""}
               onChange={handlechange}
               placeholder="Enter profile pic URL"
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -124,7 +130,7 @@ const Dash = () => {
               type="text"
               id="coverPic"
               name="coverPic"
-              value={form.coverPic || ""}
+              value={form.coverPic || form.coverpic || ""}
               onChange={handlechange}
               placeholder="Enter cover pic URL"
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -140,7 +146,7 @@ const Dash = () => {
               type="text"
               id="razorpayId"
               name="razorpayId"
-              value={form.razorpayId || ""}
+              value={form.razorpayId || form.razorpayId || ""}
               onChange={handlechange}
               placeholder="Enter Razorpay ID"
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -156,7 +162,7 @@ const Dash = () => {
               type="text"
               id="razorpaySecret"
               name="razorpaySecret"
-              value={form.razorpaySecret || ""}
+              value={form.razorpaySecret || form.razorpaySecret || ""}
               onChange={handlechange}
               placeholder="Enter Razorpay secret"
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
