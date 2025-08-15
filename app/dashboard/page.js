@@ -4,42 +4,70 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { updatedprofile, fetchuser } from "../action/interaction";
 
+const DASHBOARD_DRAFT_KEY = "dashboard_form_draft";
+
 const Dash = () => {
   const { data: session } = useSession();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
+  const [draftExists, setDraftExists] = useState(false);
 
-  // Fetch existing user data once session is available
+  // On mount, check for draft and set form if present
   useEffect(() => {
-    if (session?.user?.name) {
+    const draft = localStorage.getItem(DASHBOARD_DRAFT_KEY);
+    if (draft) {
+      try {
+        setForm(JSON.parse(draft));
+        setDraftExists(true);
+      } catch {}
+    }
+  }, []);
+
+  // Only fetch user data if no draft exists
+  useEffect(() => {
+    if (session?.user?.name && !draftExists) {
       (async () => {
         try {
           const data = await fetchuser(session.user.name);
-          console.log(data);
-          if (data) setForm(data);
+          if (data) {
+            setForm(data);
+          }
         } catch (err) {
           console.error("Failed to fetch user:", err);
         }
       })();
     }
-  }, [session]);
+  }, [session, draftExists]);
+
+  // Save form to localStorage on change
+  useEffect(() => {
+    if (Object.keys(form).length > 0) {
+      localStorage.setItem(DASHBOARD_DRAFT_KEY, JSON.stringify(form));
+    }
+  }, [form]);
 
   const handlechange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const submit = async (e) => {
-    e.preventDefault(); // stop page reload
+    e.preventDefault();
     if (!session?.user?.name) return;
 
     setLoading(true);
     try {
       const res = await updatedprofile(form, session.user.name);
-      console.log("Profile updated:", res);
       if (res.error) {
         alert(`Error: ${res.error}`);
       } else {
         alert("Profile updated successfully!");
+        localStorage.removeItem(DASHBOARD_DRAFT_KEY); // Clear draft on successful save
+        setDraftExists(false);
+        // Re-fetch user data to update form with latest server data
+        if (session?.user?.name) {
+          const data = await fetchuser(session.user.name);
+          if (data) setForm(data);
+        }
       }
     } catch (err) {
       console.error("Update failed:", err);
@@ -49,9 +77,17 @@ const Dash = () => {
     }
   };
 
+  // Helper to check if required fields are filled
+  const isFormComplete = form.name && form.email && form.username;
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md p-8 rounded-xl border border-white/20 shadow-lg backdrop-blur-md">
+        {!isFormComplete && (
+          <div className="text-center text-red-400 font-bold text-lg mb-4">
+            Please fill out your dashboard form (Name, Email, Username) to continue.
+          </div>
+        )}
         <h2 className="text-2xl font-bold text-white mb-6 text-center">
           User Info
         </h2>
@@ -71,7 +107,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Email */}
           <li className="flex flex-col">
             <label htmlFor="email" className="text-white mb-1">
@@ -87,7 +122,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Username */}
           <li className="flex flex-col">
             <label htmlFor="username" className="text-white mb-1">
@@ -103,7 +137,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Profile Pic */}
           <li className="flex flex-col">
             <label htmlFor="profilePic" className="text-white mb-1">
@@ -119,7 +152,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Cover Pic */}
           <li className="flex flex-col">
             <label htmlFor="coverPic" className="text-white mb-1">
@@ -135,7 +167,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Razorpay Id */}
           <li className="flex flex-col">
             <label htmlFor="razorpayId" className="text-white mb-1">
@@ -151,7 +182,6 @@ const Dash = () => {
               className="px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </li>
-
           {/* Razorpay Secret */}
           <li className="flex flex-col">
             <label htmlFor="razorpaySecret" className="text-white mb-1">

@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import NAV from "./components/nav";
-import Galaxy from "./Galaxy"; 
-import SessionWrapper from "./sessionwrapper"
-import Foot from "./components/foot";
+import NAV from "./components/nav.js";
+import Galaxy from "./Galaxy.js";
+import SessionWrapper from "./sessionwrapper.js";
+import Foot from "./components/foot.js";
 
 
 export default function RootLayout({
