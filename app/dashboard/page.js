@@ -6,7 +6,6 @@ import { updatedprofile, fetchuser } from "../action/interaction";
 
 const Dash = () => {
   const { data: session } = useSession();
-  const router = useRouter();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
 

@@ -59,7 +59,7 @@ const NAV = () => {
                   <DropdownItem className="hover:bg-sky-700" onClick={() => router.push("/dashboard")}>
                     Dashboard
                   </DropdownItem>
-                  <DropdownItem className="hover:bg-sky-700">Earnings</DropdownItem>
+                  {/* <DropdownItem className="hover:bg-sky-700">Earnings</DropdownItem> */}
                   <DropdownItem className="hover:bg-sky-700">
                     <a href={`/${session.user.name}`}>Your Page</a>
                   </DropdownItem>
